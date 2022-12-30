@@ -22,28 +22,34 @@ function App() {
         className="flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label htmlFor="">Title</label>
-        <input
-          type="text"
-          placeholder="Book title"
-          defaultValue="title"
-          {...register('title')}
-        />
-        <label htmlFor="">Author</label>
-        <input
-          type="text"
-          placeholder="Author name"
-          defaultValue="author-name"
-          {...register('author-name')}
-        />
-        <label htmlFor="">Note</label>
-        <textarea
-          name=""
-          id=""
-          cols={30}
-          rows={10}
-          placeholder="Leave notes"
-        ></textarea>
+        <div className="flex flex-row gap-x-2">
+          <label htmlFor="">Title</label>
+          <input
+            type="text"
+            placeholder="Book title"
+            defaultValue="title"
+            {...register('title')}
+          />
+        </div>
+        <div className="flex flex-row gap-x-2">
+          <label htmlFor="">Author</label>
+          <input
+            type="text"
+            placeholder="Author name"
+            defaultValue="author-name"
+            {...register('author-name')}
+          />
+        </div>
+        <div className="flex flex-row gap-x-2">
+          <label htmlFor="">Note</label>
+          <textarea
+            name=""
+            id=""
+            cols={30}
+            rows={10}
+            placeholder="Leave notes"
+          />
+        </div>
         {errors.exampleRequired && <span>This field is required</span>}
         <input type="submit" />
       </form>
