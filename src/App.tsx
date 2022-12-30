@@ -1,14 +1,41 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
+
+type FormValues = {};
 
 function App() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: FormValues) => console.log(data);
+  console.log(watch('title'));
+  console.log(watch('author-name'));
+
   return (
     <div className="App">
       <h1 className="text-amber-800 text-xl font-bold">Bookstore</h1>
-      <form action="submit" className="flex flex-col">
+      <form
+        action="submit"
+        className="flex flex-col"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <label htmlFor="">Title</label>
-        <input type="text" placeholder="Book title" />
+        <input
+          type="text"
+          placeholder="Book title"
+          defaultValue="title"
+          {...register('title')}
+        />
         <label htmlFor="">Author</label>
-        <input type="text" placeholder="Author name" />
+        <input
+          type="text"
+          placeholder="Author name"
+          defaultValue="author-name"
+          {...register('author-name')}
+        />
         <label htmlFor="">Note</label>
         <textarea
           name=""
@@ -17,6 +44,8 @@ function App() {
           rows={10}
           placeholder="Leave notes"
         ></textarea>
+        {errors.exampleRequired && <span>This field is required</span>}
+        <input type="submit" />
       </form>
     </div>
   );
