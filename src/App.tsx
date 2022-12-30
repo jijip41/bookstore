@@ -1,7 +1,11 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-type FormValues = {};
+interface FormValues {
+  title: string;
+  authorName: string;
+  note: string;
+}
 
 function App() {
   const {
@@ -9,27 +13,24 @@ function App() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data: FormValues) => console.log(data);
+  } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
+    console.log(data);
   console.log(watch('title'));
-  console.log(watch('author-name'));
+  console.log(watch('authorName'));
 
   return (
     <div className="App">
       <h1 className="text-amber-800 text-xl font-bold">Bookstore</h1>
-      <form
-        action="submit"
-        className="flex flex-col"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-row gap-x-2">
-          <label htmlFor="">Title</label>
+          <label>Title</label>
           <input
-            type="text"
             placeholder="Book title"
             defaultValue="title"
-            {...register('title')}
+            {...register('title', { required: true })}
           />
+          {errors.title && <span>This field is required</span>}
         </div>
         <div className="flex flex-row gap-x-2">
           <label htmlFor="">Author</label>
@@ -37,20 +38,21 @@ function App() {
             type="text"
             placeholder="Author name"
             defaultValue="author-name"
-            {...register('author-name')}
+            {...register('authorName', { required: true })}
           />
+          {errors.authorName && <span>This field is required</span>}
         </div>
+
         <div className="flex flex-row gap-x-2">
           <label htmlFor="">Note</label>
           <textarea
-            name=""
             id=""
             cols={30}
             rows={10}
             placeholder="Leave notes"
+            {...register('note', { maxLength: 200 })}
           />
         </div>
-        {errors.exampleRequired && <span>This field is required</span>}
         <input type="submit" />
       </form>
     </div>
