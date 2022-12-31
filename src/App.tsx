@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface FormValues {
   title: string;
-  authorName: string;
+  author: string;
   note: string;
 }
 
@@ -17,14 +17,14 @@ function App() {
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
     console.log(data);
   console.log(watch('title'));
-  console.log(watch('authorName'));
+  console.log(watch('author'));
 
   return (
     <div className="App">
       <h1 className="text-amber-800 text-xl font-bold">Bookstore</h1>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-row gap-x-2">
-          <label>Title</label>
+          <label htmlFor="title">Title</label>
           <input
             placeholder="Book title"
             defaultValue="title"
@@ -33,20 +33,18 @@ function App() {
           {errors.title && <span>This field is required</span>}
         </div>
         <div className="flex flex-row gap-x-2">
-          <label htmlFor="">Author</label>
+          <label htmlFor="author">Author</label>
           <input
             type="text"
-            placeholder="Author name"
-            defaultValue="author-name"
-            {...register('authorName', { required: true })}
+            placeholder="Author"
+            {...register('author', { required: true })}
           />
-          {errors.authorName && <span>This field is required</span>}
+          {errors.author && <span>This field is required</span>}
         </div>
 
         <div className="flex flex-row gap-x-2">
-          <label htmlFor="">Note</label>
+          <label htmlFor="note">Note</label>
           <textarea
-            id=""
             cols={30}
             rows={10}
             placeholder="Leave notes"
