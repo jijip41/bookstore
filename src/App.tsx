@@ -1,5 +1,16 @@
-import React from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000',
+  cache: new InMemoryCache(),
+});
 
 interface FormValues {
   title: string;
@@ -8,6 +19,7 @@ interface FormValues {
 }
 
 function App() {
+  const [books, setBooks] = useState();
   const {
     register,
     handleSubmit,
@@ -15,13 +27,25 @@ function App() {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) =>
-    console.log(data);
-  console.log(watch('title'));
-  console.log(watch('author'));
+    client
+      .query({
+        query: gql`
+          query GetBooks {
+            books {
+              title
+              author
+            }
+          }
+        `,
+      })
+      .then(() => setBooks);
+
+  console.log(books);
 
   return (
     <div className="App">
       <h1 className="text-amber-800 text-xl font-bold">Bookstore</h1>
+
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-row gap-x-2">
           <label htmlFor="title">Title</label>
@@ -46,7 +70,7 @@ function App() {
           <label htmlFor="note">Note</label>
           <textarea
             cols={30}
-            rows={10}
+            rows={5}
             placeholder="Leave notes"
             {...register('note', { maxLength: 200 })}
           />
