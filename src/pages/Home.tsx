@@ -1,28 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
-import ErrorPage from './ErrorPage';
-import LoadingPage from './LoadingPage';
-
-type book = {
-  title: string;
-  author: string;
-};
-
-const GET_BOOKS = gql`
-  query GetBooks {
-    books {
-      title
-      author
-    }
-  }
-`;
+import Books from './Books';
 
 export default function Home() {
-  const { loading, error, data } = useQuery(GET_BOOKS);
-
-  if (error || !data) return <ErrorPage />;
-  if (loading) return <LoadingPage />;
-
-  const books = data.books;
-
-  return <ul>{books && books.map((book: book) => <p>{book.title}</p>)}</ul>;
+  return <Books />;
 }
