@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, path: '/', element: <Home /> },
       { path: '/all', element: <Books /> },
       { path: '/add', element: <Form /> },
       { path: '/login', element: <Login /> },
@@ -43,7 +43,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <RouterProvider router={router} />{' '}
+      <RouterProvider router={router} />
     </ApolloProvider>
   </React.StrictMode>
 );
